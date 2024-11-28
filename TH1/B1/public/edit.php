@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $img = '';
     if ($_FILES['image']['name']) {
         $img = '../views/images/' . $_FILES['image']['name'];
-        move_uploaded_file($_FILES['image']['tmp_name'], '../' . $img);
+        move_uploaded_file($_FILES['image']['tmp_name'], $img);
     }
     $sql = "UPDATE flowers SET name = :name, description = :description, img = :img WHERE id = :id";
     $statement = $conn->prepare($sql);
