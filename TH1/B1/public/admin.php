@@ -1,30 +1,15 @@
 <?php
-$flowers = [
-    [
-        'id' => 1,
-        'name' => 'Do Quyen',
-        'image' => '../views/images/doquyen.jpg',
-        'description' => 'Do Quyen la loai hoa dep nhat'
-    ],
-    [
-        'id' => 2,
-        'name' => 'Hai Duong',
-        'image' => '../views/images/haiduong.jpg',
-        'description' => 'Hai Duong la loai hoa dep nhat'
-    ],
-    [
-        'id' => 3,
-        'name' => 'Hoa Mai',
-        'image' => '../views/images/mai.jpg',
-        'description' => 'Hoa Mai la loai hoa dep nhat'
-    ],
-    [
-        'id' => 4,
-        'name' => 'Hoa Tuong Vy',
-        'image' => '../views/images/tuongvy.jpg',
-        'description' => 'Hoa Tuong Vy la loai hoa dep nhat'
-    ]
-]
+//lay data tu database
+try {
+    require_once '../views/database.php';
+    global $conn;
+    $sql = "SELECT * FROM flowers";
+    $statement = $conn->prepare($sql);
+    $statement->execute();
+    $flowers = $statement->fetchAll();
+} catch (PDOException $e) {
+    die("Connect failed" . $e->getMessage());
+}
 
 ?>
 <?php
@@ -60,7 +45,7 @@ include_once "../views/partials/nav.php";
         <?php foreach ($flowers as $key => $flower) { ?>
             <div class="row ">
                 <div class="col">
-                    <img src="<?php echo $flower['image'] ?>" alt="" class="w-75 h-75">
+                    <img src="<?php echo $flower['img'] ?>" alt="" class="w-75 h-75">
                 </div>
                 <div class="col">
                     <?php echo $flower['name'] ?>
