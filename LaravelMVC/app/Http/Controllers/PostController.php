@@ -13,7 +13,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::all();
-        return view("home",compact("posts"));
+        return view('index',compact("posts"));
     }
 
     /**
@@ -29,7 +29,12 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'content' => 'required'
+        ]);
+        Post::create($request->all());
+        return redirect()->route('posts.index');
     }
 
     /**
@@ -51,16 +56,23 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Post $post, Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'content' => 'required'
+        ]);
+        $post->update($request->all());
+        return redirect()->route('posts.index');
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        Post::destroy($id);
+        return redirect()->route('posts.index')->with('success','Post deleted successfully');
     }
 }
